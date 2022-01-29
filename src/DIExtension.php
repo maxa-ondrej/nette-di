@@ -34,9 +34,10 @@ final class DIExtension extends CompilerExtension {
         $services = $reflection->getAttributes(Service::class);
         if (count($services) > 0) {
             $service = $services[0]->newInstance();
-            $this->getContainerBuilder()
+            $definition = $this->getContainerBuilder()
                 ->addDefinition($service->name)
                 ->setFactory($class);
+            ParameterInjector::inject($definition, $reflection);
         }
     }
 
