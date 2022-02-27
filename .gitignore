@@ -1,4 +1,5 @@
 .idea
 var
 vendor
+test
 composer.lock
