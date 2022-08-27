@@ -19,6 +19,8 @@ final class DIExtension extends CompilerExtension
     {
         /** @var array<string, mixed> $config */
         $config = $this->compiler->getConfig()['parameters'];
+        $container = $config['tempDir'] . '/NetteDIContainerSetup.php';
+        $this->initialization->addBody("include_once '$container';");
 
         $loader = new RobotLoader();
         $loader->setTempDirectory($config['tempDir']);
@@ -34,10 +36,8 @@ final class DIExtension extends CompilerExtension
                 $setupClass->addMember($method);
             }
         }
-        $container = $config['tempDir'] . '/NetteDIContainerSetup.php';
         file_put_contents($container, '<?php ' . $setupClass);
         include_once $container;
-        $this->initialization->addBody("include_once '$container';");
     }
 
     /**
